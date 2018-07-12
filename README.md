@@ -18,8 +18,8 @@ g++ -stdlib=libc++ -std=c++17 -o test_exchange test_exchange.cpp
 ## 测试结果说明
 
 ### 当前(2018-07-12)主网参数下的测试结果
-- 从0%到99%的测试结果,间隔1% : https://github.com/yuange1024/eos_ram_test/blob/master/ram_price_0.00_0.99.txt
-- 从0.00%到99.00%的测试结果,间隔0.01% :  https://github.com/yuange1024/eos_ram_test/blob/master/ram_price_0.0001_0.9900.txt
+- 从 0% 到 99% 的测试结果,间隔 1% : https://github.com/yuange1024/eos_ram_test/blob/master/ram_price_0.00_0.99.txt
+- 从 0.00% 到 99.00% 的测试结果,间隔 0.01% :  https://github.com/yuange1024/eos_ram_test/blob/master/ram_price_0.0001_0.9900.txt
 
 ### 修改部分参数的测试结果
 测试结果: https://github.com/yuange1024/eos_ram_test/blob/master/test_result.txt
@@ -30,5 +30,8 @@ g++ -stdlib=libc++ -std=c++17 -o test_exchange test_exchange.cpp
 
 需要说明的是,目前(2018-07-12)扩容方案并未确定,本项目中直接修改初始内存数量不是实际扩容方案,仅是为了查看不同初始条件下的价格变化。
 
-BM 在2018年7月4日提交了相关代码 https://github.com/EOSIO/eosio.contracts/pull/2 , 代码中的扩容方案是随着区块高度逐步扩容。如果按照该方案进行逐步扩容的, 对价格的影响也是逐步的,不会出现价格突变,感兴趣的朋友可以做一下相关测试。
+BM 在2018年7月4日提交了相关代码 https://github.com/EOSIO/eosio.contracts/pull/2 , 代码中的扩容方案是随着区块高度逐步扩容。如果按照该方案进行逐步扩容, 对价格的影响也是逐步的,不会出现价格突变,感兴趣的朋友可以做一下相关测试。
  
+## 其它
+- [猿哥翻译的《Bancor Protocol》](https://mp.weixin.qq.com/s/b_iekZpjF-oR2Gvm-5Ljsw)
+- EOS RAM 导航网站  https://eosram.vip
