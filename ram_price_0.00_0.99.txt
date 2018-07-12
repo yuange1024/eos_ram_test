@@ -2,8 +2,7 @@ ratio: 内存被购买比例
 price: 内存价格，单位：EOS/KB
 eos: eosio.ram 账户余额
 ram_byte: 被购买的内存数量，单位：字节
-ram_G: 被购买的内存数量，单位：字节
-
+ram_G: 被购买的内存数量，单位：G
 
 ratio	price	eos	ram_byte	ram_G
 0%	0.0149	0	0	0.00 
