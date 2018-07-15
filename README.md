@@ -1,7 +1,7 @@
 # EOS RAM 测试
 
 ## 代码说明
-为了方便测试,从 https://github.com/EOSIO/eos 中提取了相关代码并,涉及到的代码文件如下:
+为了方便测试,从 https://github.com/EOSIO/eos 中提取了相关代码,涉及到的代码文件如下:
 - [contracts/eosio.system/eosio.system.cpp](https://github.com/EOSIO/eos/blob/v1.0.9/contracts/eosio.system/eosio.system.cpp)
 - [contracts/eosio.system/delegate_bandwidth.cpp](https://github.com/EOSIO/eos/blob/v1.0.9/contracts/eosio.system/delegate_bandwidth.cpp)
 - [contracts/eosio.system/exchange_state.hpp](https://github.com/EOSIO/eos/blob/v1.0.9/contracts/eosio.system/exchange_state.hpp)

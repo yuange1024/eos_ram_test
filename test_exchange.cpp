@@ -33,7 +33,7 @@ struct exchange_state
     connector base;
     connector quote;
     
-    void prinf_state()
+    void print_state()
     {
         printf("exchange_state: [supply.amount:%.0Lf][base.amount:%.0Lf][quote.amount:%.0Lf][ram_init_amount:%.0LfG][weight:%.1f]\n",
                supply.amount, base.balance.amount, quote.balance.amount,ram_init_amount / (1024 * 1024 * 1024),base.weight);
@@ -197,7 +197,7 @@ void calc_init_price()
 
 void calc_1_99_percent_info()
 {
-    ex.prinf_state();
+    ex.print_state();
 
     asset input;
     input.symbol = "EOS";
@@ -237,6 +237,60 @@ void calc_1_99_percent_info()
         printf("%.2f%%\t%.4f\t%.0f\t%.0f\n", ram_bought * 100 / ex.ram_init_amount,  get_current_price(),  eosioram_balance / 10000, ram_bought );
     }
     */
+}
+
+void change_ram_from_64g_to_128g_at_80_percent()
+{
+    init_exchange_state();
+    
+    ex.print_state();
+    
+    asset input;
+    input.symbol = "EOS";
+    
+    double eosioram_balance = 4000000 * 10000.0; // 初始 64G 内存，内存被购买 80% 时， eosio.ram 账户余额
+    
+    input.amount = eosioram_balance;
+    double ram_bought = ex.convert(input, "RAM" ).amount;
+    print_buy_info(ram_bought,input.amount);
+    
+    
+    printf("\nratio: 内存被购买比例\nprice: 内存价格，单位：EOS/KB\neos: eosio.ram 账户余额\nram_bought: 被购买的内存数量，单位：字节\n\n");
+    printf("ratio\tprice\teos\tram_bought\n");
+    printf("%.1Lf%%\t%.4f\t%.0f\t%.0f\n", ram_bought * 100 / ex.ram_init_amount,  get_current_price(),  eosioram_balance / 10000, ram_bought );
+    
+    
+    // 在当前条件下扩容1倍，扩容后内存已售比例由80%变为40%
+    ex.base.balance.amount += (64.0 * 1024 * 1024 * 1024);
+    ex.ram_init_amount = (128.0 * 1024 * 1024 * 1024);
+    
+    ex.print_state();
+    
+    double eosioram_balance2 = (300000000 - 5000000)  * 10000.0; // 扩容到128G内存后，内存被购买 80% 时，再使用这么多EOS买成内存，会让内存已购比例达到99%
+    
+    input.amount = eosioram_balance2;
+    double ram_bought2 = ex.convert(input, "RAM" ).amount;
+    print_buy_info(ram_bought2,input.amount);
+    print_buy_info(ram_bought + ram_bought2,input.amount);
+
+    double current_eos = eosioram_balance + eosioram_balance2;
+    double current_ram_bought = ram_bought2 + ram_bought;
+    
+    printf("%.3Lf%%\t%.4f\t%.0f\t%.0f\n",  current_ram_bought * 100 / ex.ram_init_amount,  get_current_price(),  current_eos / 10000, current_ram_bought );
+
+
+    input.symbol = "RAM";
+    // 每次卖  1 % 的内存
+    input.amount = ex.ram_init_amount / 100.0 ;
+    for(int ratio = 98; ratio >= 0; ratio -= 1)
+    {
+        double eos =  ex.convert(input,"EOS").amount;
+        //ex.prinf_state();
+        current_eos -= eos;
+        current_ram_bought -= input.amount;
+        printf("%.3Lf%%\t%.4f\t%.0f\t%.0f\n", current_ram_bought * 100 / ex.ram_init_amount,
+               get_current_price(),  current_eos / 10000, current_ram_bought );
+    }
 }
 
 // 测试结果表明，weight的值为0.5、5、50、500时，在RAM已售比例相同时，价格是是相同的
@@ -298,11 +352,14 @@ void test_different_init_ram()
 
 int main( int argc, char** argv ) 
 {
+    change_ram_from_64g_to_128g_at_80_percent();
+    
     
     init_exchange_state();
     calc_1_99_percent_info();
     
-    
+    return 0;
+
     test_different_weight();
     
     test_different_init_ram();
